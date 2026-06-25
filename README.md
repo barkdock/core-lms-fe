@@ -1,28 +1,28 @@
 # LMS Frontend
 
-Giao diện người dùng cho hệ thống LMS đa vai trò, xây dựng bằng React + Vite, có phân quyền theo `ADMIN`, `TEACHER`, `STUDENT`, hỗ trợ dashboard riêng cho từng vai trò, đăng nhập/đăng ký, danh sách khóa học, giỏ hàng, hồ sơ cá nhân và các khu vực quản trị.
+A multi-role learning management system frontend built with React and Vite. The app supports role-based access for `ADMIN`, `TEACHER`, and `STUDENT`, along with dedicated dashboards, authentication, course browsing, cart, profile, and administration pages.
 
-## Tổng quan
+## Overview
 
-Repository này là frontend cho một hệ thống học trực tuyến với các khu vực chính:
+This repository contains the client-side application for an online learning platform. It includes:
 
-- Trang public: home, courses, pricing, teams, resources, profile, cart
-- Xác thực: login, register
-- Dashboard người dùng: admin, teacher, student
-- Bảo vệ route theo vai trò và trạng thái đăng nhập
-- Tích hợp dark mode, toast notification, scroll mượt, error boundary và xử lý lỗi toàn cục
+- Public pages: home, courses, pricing, teams, resources, profile, and cart
+- Authentication flows: login and register
+- Role-based dashboards for admin, teacher, and student users
+- Route protection based on authentication and role
+- Global UI features such as dark mode, toast notifications, smooth scrolling, error boundaries, and app-wide error handling
 
-## Tính năng chính
+## Key Features
 
-- Lazy load cho các trang để giảm tải bundle ban đầu
-- Phân quyền route bằng `PrivateRoute` và `RoleBasedGuard`
-- Tự động lấy profile khi app khởi động
-- Token refresh flow ở tầng axios khi gặp `401`
-- Dark mode được sync với Redux state
-- Giao diện dashboard có sidebar, navbar và vùng nội dung cuộn riêng
-- Form auth dùng `react-hook-form` + `zod`
-- Hỗ trợ đăng nhập bằng Google thông qua URL cấu hình từ biến môi trường
-- Thông báo toast, xử lý lỗi toàn cục, và fallback page cho lỗi hệ thống
+- Lazy-loaded routes to keep the initial bundle smaller
+- Route guarding through `PrivateRoute` and `RoleBasedGuard`
+- Automatic profile fetch on app startup
+- Axios token refresh flow when a `401` response is received
+- Dark mode state synchronized with Redux
+- Dashboard layout with a sidebar, navbar, and a dedicated scroll container
+- Authentication forms powered by `react-hook-form` and `zod`
+- Google sign-in support through a configurable environment variable
+- Toast notifications, global error handling, and a fallback page for system errors
 
 ## Tech Stack
 
@@ -40,154 +40,154 @@ Repository này là frontend cho một hệ thống học trực tuyến với c
 - Recharts
 - Lucide React
 
-## Yêu cầu môi trường
+## Requirements
 
-- Node.js 18+ được khuyến nghị
-- npm đi kèm Node.js
-- Backend API chạy sẵn, mặc định frontend trỏ tới `http://localhost:8082`
+- Node.js 18 or newer is recommended
+- npm comes with Node.js
+- A backend API must be available; the frontend defaults to `http://localhost:8082`
 
-## Cài đặt
+## Installation
 
-1. Cài dependency:
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Tạo file môi trường nếu cần tùy chỉnh API:
+2. Create a local environment file if you need to override API settings:
 
 ```bash
 .env.local
 ```
 
-3. Chạy app ở môi trường dev:
+3. Start the development server:
 
 ```bash
 npm run dev
 ```
 
-4. Build production:
+4. Build for production:
 
 ```bash
 npm run build
 ```
 
-5. Preview bản build:
+5. Preview the production build locally:
 
 ```bash
 npm run preview
 ```
 
-6. Kiểm tra lint:
+6. Run lint checks:
 
 ```bash
 npm run lint
 ```
 
-## Biến môi trường
+## Environment Variables
 
-Frontend dùng các biến sau:
+The frontend recognizes the following environment variables:
 
-- `VITE_API_URL`: base URL của backend API
-- `VITE_GOOGLE_AUTH_URL`: URL đăng nhập Google
+- `VITE_API_URL`: Base URL for the backend API
+- `VITE_GOOGLE_AUTH_URL`: Google authentication redirect URL
 
-Ví dụ:
+Example:
 
 ```env
 VITE_API_URL=http://localhost:8082
 VITE_GOOGLE_AUTH_URL=http://localhost:8080/api/v1/auth/google
 ```
 
-Nếu không khai báo, app sẽ dùng giá trị mặc định:
+If these variables are not defined, the app falls back to:
 
-- API: `http://localhost:8082`
-- Google auth: `http://localhost:8080/api/v1/auth/google`
+- API base URL: `http://localhost:8082`
+- Google auth URL: `http://localhost:8080/api/v1/auth/google`
 
-## Luồng xác thực
+## Authentication Flow
 
-- Login và Register dùng form validation bằng Zod
-- Axios instance bật `withCredentials: true`
-- Khi backend trả `401`, frontend sẽ thử refresh token qua `/v1/auth/refresh-token`
-- Nếu refresh thất bại, request sẽ bị reject để tầng UI xử lý tiếp
+- Login and register forms use Zod validation
+- Axios is configured with `withCredentials: true`
+- When the backend returns `401`, the client attempts to refresh the token through `/v1/auth/refresh-token`
+- If refresh fails, the request is rejected and the UI can handle the failure state
 
-## Phân quyền và route
+## Routes
 
-### Public routes
+### Public Routes
 
-- `/`
-- `/courses`
-- `/courses/:courseId`
-- `/pricing`
-- `/teams`
-- `/resources`
-- `/profile`
-- `/cart`
-- `/login`
-- `/register`
-- `/oops`
+-    `/`
+-    `/courses`
+-    `/courses/:courseId`
+-    `/pricing`
+-    `/teams`
+-    `/resources`
+-    `/profile`
+-    `/cart`
+-    `/login`
+-    `/register`
+-    `/oops`
 
-### Admin routes
+### Admin Routes
 
-- `/admin/dashboard`
-- `/admin/courses`
-- `/admin/revenue`
-- `/admin/orders`
-- `/admin/payments`
-- `/admin/users`
-- `/admin/audit`
-- `/admin/approvals`
-- `/admin/settings`
-- `/admin/banners`
+-    `/admin/dashboard`
+-    `/admin/courses`
+-    `/admin/revenue`
+-    `/admin/orders`
+-    `/admin/payments`
+-    `/admin/users`
+-    `/admin/audit`
+-    `/admin/approvals`
+-    `/admin/settings`
+-    `/admin/banners`
 
-### Teacher routes
+### Teacher Routes
 
-- `/teacher/dashboard`
-- `/teacher/courses`
-- `/teacher/students`
-- `/teacher/messages`
-- `/teacher/revenue`
-- `/teacher/reviews`
-- `/teacher/settings`
-- `/teacher/create-course`
+-    `/teacher/dashboard`
+-    `/teacher/courses`
+-    `/teacher/students`
+-    `/teacher/messages`
+-    `/teacher/revenue`
+-    `/teacher/reviews`
+-    `/teacher/settings`
+-    `/teacher/create-course`
 
-### Student routes
+### Student Routes
 
-- `/student/dashboard`
-- `/student/courses`
-- `/student/explore`
-- `/student/certificates`
-- `/student/messages`
-- `/student/settings`
+-    `/student/dashboard`
+-    `/student/courses`
+-    `/student/explore`
+-    `/student/certificates`
+-    `/student/messages`
+-    `/student/settings`
 
-## Cấu trúc thư mục
+## Project Structure
 
 ```text
 src/
-  api/          axios instance và các hàm gọi API
-  assets/       stylesheet và tài nguyên tĩnh
-  components/   UI dùng chung, layout components, admin components
-  data/         dữ liệu tĩnh cho public pages
-  hooks/        custom hooks cho auth, localStorage, stats
-  layouts/      layout cho public, auth và dashboard
-  pages/        các page theo từng nhóm vai trò
-  routes/       guards cho route
-  store/        Redux store và slices
-  utils/        constants, formatters, validators
+  api/          Axios instance and API helpers
+  assets/       Global styles and static assets
+  components/   Shared UI, layout pieces, and admin components
+  data/         Static data for public pages
+  hooks/        Custom hooks for auth, localStorage, and stats
+  layouts/      Public, auth, and dashboard layouts
+  pages/        Page components grouped by user role
+  routes/       Route guards and protection helpers
+  store/        Redux store and slices
+  utils/        Constants, formatters, and validators
 ```
 
-## Dữ liệu và state
+## State Management
 
-- Redux store nằm ở `src/store/store.js`
-- `auth` quản lý trạng thái đăng nhập, profile, lỗi và loading
-- `ui` quản lý dark mode và sidebar state
+- The Redux store is defined in `src/store/store.js`
+- The `auth` slice manages authentication state, profile data, loading, and errors
+- The `ui` slice manages dark mode and sidebar state
 
-## Ghi chú triển khai
+## Implementation Notes
 
-- App dùng `withCredentials`, nên backend cần cấu hình CORS và cookie/session tương ứng
-- Nếu backend đổi endpoint, cập nhật lại `VITE_API_URL` hoặc `VITE_GOOGLE_AUTH_URL`
-- Thư mục `dist/` là output build, không nên commit
+- The app uses `withCredentials`, so the backend must support the expected CORS and cookie/session behavior
+- If the backend endpoints change, update `VITE_API_URL` or `VITE_GOOGLE_AUTH_URL`
+- The `dist/` directory is build output and should not be committed
 
-## Lệnh nhanh
+## Quick Commands
 
 ```bash
 npm install
@@ -197,11 +197,11 @@ npm run preview
 npm run lint
 ```
 
-## Nếu m muốn chỉnh tiếp
+## Possible Next Additions
 
-Có thể mở rộng README thêm các phần sau nếu cần:
+If needed, this README can be expanded with:
 
-- hướng dẫn cấu hình backend chi tiết
-- ảnh chụp màn hình giao diện
-- tài khoản demo cho từng role
-- quy trình deploy lên Vercel/Netlify hoặc server riêng
+- Detailed backend integration instructions
+- Screenshots of the UI
+- Demo accounts for each role
+- Deployment steps for Vercel, Netlify, or a custom server
