@@ -1,0 +1,354 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	color-scheme: light;
+	--bg: #f7efe6;
+	--card: #ffffff;
+	--ink: #1f1a15;
+	--muted: #6b5e53;
+	--accent: #d45a1f;
+	--accent-2: #f2c9b2;
+	--accent-3: #f6b35a;
+	--border: #e6ddd4;
+	--shadow: 0 20px 50px rgba(26, 18, 10, 0.12);
+	--footer-bg: #15100c;
+	--footer-card: #1f1812;
+	--footer-ink: #f7efe6;
+	--footer-muted: #c4b6a9;
+	--footer-border: #2d231b;
+}
+
+html.dark {
+	color-scheme: dark;
+	--bg: #1a1410;
+	--card: #221a14;
+	--ink: #f3e8de;
+	--muted: #b7a89b;
+	--accent: #f0a468;
+	--accent-2: #3a2518;
+	--accent-3: #f6b35a;
+	--border: #3a2a20;
+	--shadow: 0 20px 50px rgba(10, 6, 3, 0.35);
+	--footer-bg: #0f0b08;
+	--footer-card: #17110d;
+	--footer-ink: #f6eadc;
+	--footer-muted: #b7a89b;
+	--footer-border: #2c231c;
+}
+
+/* ─── Custom Animations ─────────────────────────────────────────────────────── */
+@keyframes float {
+	0%,
+	100% {
+		transform: translateY(0) rotate(0deg);
+	}
+	33% {
+		transform: translateY(-12px) rotate(1deg);
+	}
+	66% {
+		transform: translateY(6px) rotate(-1deg);
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+@keyframes glow-pulse {
+	0%,
+	100% {
+		box-shadow: 0 0 8px 2px rgba(212, 90, 31, 0.15);
+	}
+	50% {
+		box-shadow: 0 0 20px 6px rgba(212, 90, 31, 0.3);
+	}
+}
+
+.animate-float {
+	animation: float 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+	background-size: 200% 100%;
+	animation: shimmer 2.5s linear infinite;
+}
+
+.animate-glow-pulse {
+	animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.font-heading {
+	font-family: "Fraunces", "Georgia", serif;
+}
+
+.font-body {
+	font-family: "Space Grotesk", "Trebuchet MS", sans-serif;
+}
+
+.content-auto {
+	content-visibility: auto;
+	contain-intrinsic-size: 1px 800px;
+}
+
+@layer base {
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+
+	body {
+		@apply font-sans antialiased;
+		background: radial-gradient(circle at top, #fff6ec 0%, var(--bg) 55%, #efe5da 100%);
+		color: var(--ink);
+		transition: background-color 0.2s ease, color 0.2s ease;
+		text-rendering: optimizeSpeed;
+	}
+
+	html.dark body {
+		background: radial-gradient(circle at top, #2a201a 0%, var(--bg) 60%, #130e0b 100%);
+		color: var(--ink);
+	}
+
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply rounded-full;
+		background: color-mix(in srgb, var(--accent) 40%, transparent);
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: color-mix(in srgb, var(--accent) 55%, transparent);
+	}
+}
+
+@layer components {
+	.btn-primary {
+		@apply flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-600 hover:bg-primary-700 active:bg-primary-800
+      text-white text-sm font-semibold rounded-xl shadow-sm
+      transition-all duration-200 ease-in-out
+      focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+      disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+	}
+
+	.btn-secondary {
+		@apply flex items-center justify-center gap-2 px-4 py-2.5
+			text-sm font-semibold rounded-xl shadow-sm
+      transition-all duration-200 ease-in-out
+			focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2;
+		background-color: var(--accent-2);
+		color: var(--ink);
+		border: 1px solid var(--border);
+	}
+
+	.card {
+		@apply relative rounded-2xl;
+		background-color: var(--card);
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow);
+	}
+
+	.input-field {
+		@apply w-full px-4 py-3 rounded-xl
+			text-sm font-medium
+			focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+			transition-all duration-200
+			disabled:opacity-50 disabled:cursor-not-allowed;
+		background-color: var(--card);
+		border: 1px solid var(--border);
+		color: var(--ink);
+	}
+
+	.input-field::placeholder {
+		color: var(--muted);
+	}
+
+	.input-error {
+		@apply border-red-400 dark:border-red-500 focus:ring-red-400;
+	}
+
+	.label {
+		@apply block text-sm font-semibold mb-1.5;
+		color: var(--muted);
+	}
+
+	.sidebar-link {
+		@apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150;
+		color: var(--muted);
+	}
+
+	.sidebar-link.active {
+		@apply text-primary-700;
+		background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+	}
+
+	.stat-card {
+		@apply card p-6 flex flex-col gap-4;
+	}
+
+	.field-label {
+		@apply block text-xs font-semibold mb-1.5;
+		color: var(--muted);
+	}
+
+	.field-input {
+		@apply w-full px-3.5 py-2.5 rounded-xl text-sm
+			focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500
+			transition-all duration-200;
+		background-color: color-mix(in srgb, var(--card) 92%, transparent);
+		border: 1px solid var(--border);
+		color: var(--ink);
+	}
+
+	.field-error {
+		@apply mt-1 text-[11px] font-medium text-red-500 dark:text-red-400;
+	}
+
+	.admin-muted {
+		@apply text-sm text-slate-500 dark:text-slate-400;
+	}
+
+	.admin-table-cell {
+		@apply px-5 py-4 align-middle text-sm text-slate-700 dark:text-slate-300;
+	}
+
+	.admin-table-heading {
+		@apply px-5 py-3.5 text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400;
+	}
+}
+
+@supports (backdrop-filter: blur(1px)) {
+	.card {
+		backdrop-filter: blur(4px);
+	}
+}
+
+@media (max-width: 768px) {
+	.card {
+		backdrop-filter: none;
+	}
+
+	/* Avoid continuous GPU animations on weaker mobile devices. */
+	.animate-float,
+	.animate-shimmer,
+	.animate-glow-pulse {
+		animation: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* Admin performance mode: reduce UI effects for smoother experience on large dashboards. */
+.admin-lite,
+.admin-lite *,
+.admin-lite *::before,
+.admin-lite *::after {
+	animation: none !important;
+	transition-property: none !important;
+	transition-duration: 0ms !important;
+}
+
+.admin-lite .card {
+	box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08) !important;
+	backdrop-filter: none !important;
+}
+
+/* DayPicker (date filter) */
+.rdp {
+	--rdp-accent-color: var(--accent);
+	--rdp-accent-background-color: var(--accent);
+	--rdp-background-color: transparent;
+	--rdp-outline-color: transparent;
+	--rdp-accent-color-dark: var(--accent);
+	@apply text-xs;
+	color: var(--ink);
+}
+
+.rdp-root {
+	@apply w-full;
+}
+
+.rdp-caption_label {
+	@apply text-[11px] font-semibold;
+	color: var(--ink);
+}
+
+.rdp-nav_button {
+	@apply h-6 w-6 rounded-full;
+	color: var(--muted);
+	background-color: transparent;
+}
+
+.rdp-table {
+	@apply w-full;
+}
+
+.rdp-head_cell {
+	@apply pb-1 text-[10px] font-medium text-slate-400 dark:text-slate-500;
+}
+
+.rdp-cell {
+	@apply p-0.5;
+}
+
+.rdp-day {
+	@apply h-7 w-7 rounded-lg text-[11px];
+}
+
+.rdp-day_selected {
+	@apply bg-primary-500 text-white shadow-sm shadow-primary-500/40;
+}
+
+.rdp-day_today:not(.rdp-day_selected) {
+	@apply border border-primary-500/60;
+}
+
+.rdp-day_outside {
+	@apply text-slate-300 dark:text-slate-700 opacity-60;
+}
+
+/* Range selection (premium) */
+.rdp-day_range_middle:not(.rdp-day_selected) {
+	@apply bg-primary-500/10 text-primary-400;
+}
+
+.rdp-day_range_start,
+.rdp-day_range_end {
+	@apply bg-primary-500 text-white shadow-sm shadow-primary-500/40;
+}
+
+/* Dropdown month/year */
+.rdp-caption_dropdowns select {
+	@apply rounded-lg border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 px-2 py-1 text-[11px] font-semibold text-slate-700 dark:text-slate-100;
+}
+
+.rdp-caption_dropdowns select:focus {
+	outline: none;
+}
